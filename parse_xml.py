@@ -1,4 +1,4 @@
-def xml_to_dict():
+def parse_xml():
     try:
         xml_file = open('./directives.xml', 'rt')
         xml_file_contents = xml_file.read()
