@@ -26,4 +26,18 @@ def check_key(xml_file_contents, key_value, range=None):
             print("Expected: range = [Start position, End position]\n")
             return 0
 
-    key_startPos = xml_file_contents.index()
+    keyPair = []
+    keyPair.append('<' + key_value + '>')
+    keyPair.append('</' + key_value + '>')
+
+    key_startPos = xml_file_contents.index(keyPair[0]) + len(keyPair[0]) + 1
+    key_endPos = xml_file_contents.index(keyPair[1]) - 1
+
+    validityFlag = (key_startPos >= 0) & (key_endPos >= 0)
+    validityFlag &= (key_startPos < key_endPos)
+
+    if not(validityFlag)
+        return False
+
+    key_value = xml_file_contents[key_startPos : key_endPos]
+    return key_value
