@@ -1,0 +1,9 @@
+<save_location>
+    <battery_report>  </battery_report>
+    <battery_all_info> .\ </battery_all_info>
+</save_location>
+
+<file_name>
+    <battery_report>  </battery_report>
+    <battery_all_info> Monitor - Battery Information.csv </battery_all_info>
+</file_name>
