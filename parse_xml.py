@@ -1,39 +1,31 @@
-def parse_xml(keyValue):
+def parse_xml(keyValue, XML_fileContents=None):
     try:
-        XML_file = open('./directives.xml', 'rt')
-        XML_fileContents = XML_file.read()
-        XML_file.close()
+        if (XML_fileContents is None):
+            XML_file = open('./directives.xml', 'rt')
+            XML_fileContents = XML_file.read()
+            XML_file.close()
 
-        delimiterIndex = keyValue.index('/')
-        while (delimiterIndex >= 0):
+        try:
+            delimiterIndex = keyValue.index('/')
+        except:
+            delimiterIndex = -1
+        finally:
             lookupValue = keyValue[:delimiterIndex]
-            keyValue = keyValue[(delimiterIndex+1):]
-            XML_fileContents = check_key(XML_fileContents, lookupValue)
+            if (-1 == delimiterIndex):
+                lookupValue = keyValue
 
-        return XML_fileContents
+            XML_fileContents = check_key(XML_fileContents, lookupValue)
+            if (-1 == delimiterIndex):
+                return XML_fileContents
+            else:
+                delimiterIndex += 1
+                keyValue = keyValue[delimiterIndex:]
+                return parse_xml(keyValue, XML_fileContents)
 
     except:
-        print("Directive file is missing.")
+        print("Directive file is missing, has format error(s), or does not contain the tag of interest.")
 
-def check_key(XML_fileContents, keyValue, range=None):
-    startPos = 0
-    endPos = len(XML_fileContents) - 1
-
-    if not(range is None):
-        try:
-            startPos = range[0]
-            endPos = range[1]
-
-            if ((-1 == endPos) | ((len(XML_fileContents) - 1) == endPos)):
-                XML_fileContents = XML_fileContents[startPos:]
-            else:
-                XML_fileContents = XML_fileContents[startPos:endPos+1]
-                
-        except:
-            print(f"Invalid XML look-up parameter: range = {range}")
-            print("Expected: range = [Start position, End position]\n")
-            return 0
-
+def check_key(XML_fileContents, keyValue):
     keyPair = []
     keyPair.append('<' + keyValue + '>')
     keyPair.append('</' + keyValue + '>')
@@ -51,3 +43,7 @@ def check_key(XML_fileContents, keyValue, range=None):
     return keyValue
 
 if __name__ == '__main__':
+    print(parse_xml('save_location/battery_report_'))
+    print(parse_xml('save_location/battery_all_info'))
+    print(parse_xml('file_name/battery_report'))
+    print(parse_xml('file_name/battery_all_info'))
