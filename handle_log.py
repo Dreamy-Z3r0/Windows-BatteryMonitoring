@@ -1,4 +1,5 @@
 import os
+from parse_xml import parse_xml
 
 
 ###############################
@@ -30,7 +31,7 @@ logHeaderRow_batteryInformation = {
 def analyse_dir(fileFullPath):
     container = [0, 0]
     try:
-        container = fileFullPath.split('\\')
+        container = fileFullPath.split('//')
     except:
         print(f"{fileFullPath} is not a valid directory.")
     finally:
@@ -44,7 +45,7 @@ def file_check(fileFullPath):
         # Obtain the directory part
         logContainer = analyse_dir(fileFullPath)
         del logContainer[-1]
-        logContainer = '\\'.join(logContainer)      
+        logContainer = '//'.join(logContainer)      
 
         # Check if the folder for the log is the working directory
         if not('.' == logContainer):
@@ -68,7 +69,7 @@ def file_write_field(fileFullPath, dictInput):
         logFilename = analyse_dir(fileFullPath)
         logFilename = logFilename[-1]
 
-        if ('Monitor - Battery Information.csv' == logFilename):
+        if (parse_xml('file_name/battery_all_info') == logFilename):
             logFilename = 1
         else:
             raise Exception(f"Error: Invalid log name: {logFilename}")
@@ -108,10 +109,10 @@ def file_write_field(fileFullPath, dictInput):
 #########################
 
 if __name__ == '__main__':
-    logContainer = '.'
+    logContainer = '..'
     logFilename = 'Monitor - Battery Full-charged Capacity.csv'
 
-    logFilename_fullpath = logContainer + '\\' + logFilename
+    logFilename_fullpath = logContainer + '//' + logFilename
 
     file_write_field(logFilename_fullpath, ['field 1', 'field 2', 'field 3\n'])
     file_write_field(logFilename_fullpath + 'meh', ['field 4', 'field 5', 'field 6\n'])

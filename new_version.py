@@ -1,4 +1,4 @@
-from xml_to_dict import xml_to_dict
+from parse_xml import parse_xml
 
 import BatteryInformation.update_fullChargedCapacity as update_fullChargedCapacity
 import BatteryInformation.fetch_staticInformation as fetch_staticInformation
@@ -6,10 +6,10 @@ import BatteryInformation.update_status as update_status
 import update_datetime
 import handle_log
 
-logContainer = '..'
-logFilename = 'Monitor - Battery Information.csv'
+logContainer = parse_xml('save_location/battery_all_info')
+logFilename = parse_xml('file_name/battery_all_info')
 
-logFilename_fullpath = logContainer + '\\' + logFilename
+logFilename_fullpath = logContainer + '//' + logFilename
 
 
 def main_process():
